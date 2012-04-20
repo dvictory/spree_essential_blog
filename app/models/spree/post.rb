@@ -4,8 +4,8 @@ class Spree::Post < ActiveRecord::Base
 
   # for flash messages    
   alias_attribute :name, :title
-    
-  has_and_belongs_to_many :post_categories, :join_table => "spree_post_categories_posts"
+  
+  has_and_belongs_to_many :post_categories, :join_table => "spree_post_categories_posts", :class_name => "Spree::PostCategory"
   alias_attribute :categories, :post_categories
   
   belongs_to :blog, :class_name => "Spree::Blog"
@@ -21,7 +21,10 @@ class Spree::Post < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
 
-  scope :live, where(:live => true ).order("posted_at DESC")
+  scope :ordered, order("posted_at DESC")
+  scope :future,  where("posted_at > ?", Time.now).order("posted_at ASC")
+  scope :past,    where("posted_at <= ?", Time.now).ordered
+  scope :live,    where(:live => true )
 
  	before_validation :create_path, :if => proc{ |record| record.title_changed? }
   

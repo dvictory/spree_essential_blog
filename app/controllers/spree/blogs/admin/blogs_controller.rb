@@ -12,8 +12,13 @@ private
     
   def collection
     params[:search] ||= {}
+<<<<<<< HEAD
     params[:search][:meta_sort] ||= "title.asc"
     @search = Spree::Blog.search(params[:search])
+=======
+    params[:search][:meta_sort] ||= "name.asc"
+    @search = Spree::Blog.metasearch(params[:search])
+>>>>>>> origin/master
     @collection = @search.page(params[:page]).per(Spree::Config[:orders_per_page])
   end
 
