@@ -29,10 +29,11 @@ class Spree::Blogs::Admin::PostsController < Spree::Admin::ResourceController
     end
     
     def collection
-      params[:search] ||= {}
-      params[:search][:meta_sort] ||= "posted_at.desc"
-      @search = Spree::Post.metasearch(params[:search])
-      @collection = @search.page(params[:page]).per(Spree::Post.per_page)
+      params[:q] ||= {}
+      params[:q][:meta_sort] ||= "posted_at.desc"
+      puts params
+      @search = Spree::Post.search(params[:q])
+      @collection = @search.result.page(params[:page]).per(Spree::Post.per_page)
     end
 
 end

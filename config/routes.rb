@@ -4,8 +4,9 @@ Spree::Core::Engine.routes.append do
 
     namespace :admin do
       
-      resources :blogs, :constraints => { :id => /[a-z0-9\-\_\/]{3,}/ }
-      
+      resources :blogs, :constraints => { :id => /(?:blog|news)/ }
+      #resources :blogs, :constraints => { :id => /[a-z0-9\-\_\/]{3,}/ }
+
       resources :posts do 
         resources :images,   :controller => "post_images" do
           collection do
@@ -20,8 +21,9 @@ Spree::Core::Engine.routes.append do
       
     end
           
-    constraints :blog_id => /([a-z0-9\-\_\/]{3,})/ do
-      
+    #constraints :blog_id => /([a-z0-9\-\_\/]{3,})/ do
+    constraints :blog_id => /(?:blog|news)/ do
+
       constraints(
         :year  => /\d{4}/,
         :month => /\d{1,2}/,
